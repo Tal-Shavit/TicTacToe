@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EndGameActivity"
+    android:orientation="vertical"
+    android:background="@color/blue_light"
+    >
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/winLottie1"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:lottie_rawRes="@raw/partylottie"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="true"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/winOrLoseTxt"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="fcffff"
+            android:textSize="50sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="70dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/startOverButton"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@drawable/shapebutton"
+                android:text="CONTINUE"
+                android:textSize="20sp"/>
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/homeButton"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@drawable/shapebutton"
+                android:text="START OVER"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/winLottie2"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        app:lottie_rawRes="@raw/partylottie"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="true"
+        />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
