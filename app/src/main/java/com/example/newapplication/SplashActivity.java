@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         moveSplash(startGameLottie);
     }
 
-    public void moveSplash(View view){
+    public void moveSplash(View view) {
         view.setVisibility(View.VISIBLE);
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int h = displayMetrics.heightPixels;

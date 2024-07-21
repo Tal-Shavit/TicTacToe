@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,20 +16,15 @@ public class GameActivity extends AppCompatActivity {
     public static String KEY_NAME2 = "KEY_NAME2";
     public static String KEY_SCORE1 = "KEY_SCORE1";
     public static String KEY_SCORE2 = "KEY_SCORE2";
-    private TextView player1;
-    private TextView player2;
+    private TextView player1, player2, score1, score2;
     private int[] currentNumber = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-    private int totalClicks = 0;
+    private int totalClicks = 0, scorePlayer1, scorePlayer2;
     private boolean playerX = true;
     int win = -1;
-    private String namePlayer1;
-    private String namePlayer2;
+    private String namePlayer1, namePlayer2;
     private ImageButton[] buttons = new ImageButton[9];
     private Button homeButton;
-    private TextView score1;
-    private TextView score2;
-    private int scorePlayer1;
-    private int scorePlayer2;
+    private Intent myIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +58,14 @@ public class GameActivity extends AppCompatActivity {
         player2.setText(namePlayer2.toUpperCase() + "\nO");
         scorePlayer1 = getIntent().getIntExtra(KEY_SCORE1, 0);
         scorePlayer2 = getIntent().getIntExtra(KEY_SCORE2, 0);
-        score1.setText(scorePlayer1+"");
-        score2.setText(scorePlayer2+"");
-        clickButton();
+        score1.setText(scorePlayer1 + "");
+        score2.setText(scorePlayer2 + "");
 
+        clickButton();
+        onHomeButton();
+    }
+
+    private void onHomeButton() {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +109,7 @@ public class GameActivity extends AppCompatActivity {
                 buttons[i * 3 + 1].setBackground(getResources().getDrawable(R.drawable.shapebutton_stroke));
                 buttons[i * 3 + 2].setBackground(getResources().getDrawable(R.drawable.shapebutton_stroke));
                 openEndGameScreen(i * 3);
-                for(int j =0; j<buttons.length; j++){
+                for (int j = 0; j < buttons.length; j++) {
                     buttons[j].setEnabled(false);
                 }
             } else if (currentNumber[i] != 0 && currentNumber[i] == currentNumber[i + 3] && currentNumber[i] == currentNumber[i + 6]) {
@@ -119,7 +117,7 @@ public class GameActivity extends AppCompatActivity {
                 buttons[i + 3].setBackground(getResources().getDrawable(R.drawable.shapebutton_stroke));
                 buttons[i + 6].setBackground(getResources().getDrawable(R.drawable.shapebutton_stroke));
                 openEndGameScreen(i);
-                for(int j =0; j<buttons.length; j++){
+                for (int j = 0; j < buttons.length; j++) {
                     buttons[j].setEnabled(false);
                 }
             }
@@ -129,7 +127,7 @@ public class GameActivity extends AppCompatActivity {
             buttons[4].setBackground(getResources().getDrawable(R.drawable.shapebutton_stroke));
             buttons[8].setBackground(getResources().getDrawable(R.drawable.shapebutton_stroke));
             openEndGameScreen(0);
-            for(int j =0; j<buttons.length; j++){
+            for (int j = 0; j < buttons.length; j++) {
                 buttons[j].setEnabled(false);
             }
         } else if (currentNumber[2] != 0 && currentNumber[2] == currentNumber[4] && currentNumber[2] == currentNumber[6]) {
@@ -137,7 +135,7 @@ public class GameActivity extends AppCompatActivity {
             buttons[4].setBackground(getResources().getDrawable(R.drawable.shapebutton_stroke));
             buttons[6].setBackground(getResources().getDrawable(R.drawable.shapebutton_stroke));
             openEndGameScreen(2);
-            for(int j =0; j<buttons.length; j++){
+            for (int j = 0; j < buttons.length; j++) {
                 buttons[j].setEnabled(false);
             }
         } else if (totalClicks == 9) {
@@ -146,26 +144,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void openEndGameScreen(int index) {
-        if (index != -1) {
-            if (currentNumber[index] == 1) {
-                win = 1;
-                scorePlayer1++;
-                score1.setText(scorePlayer1+"");
-            } else if (currentNumber[index] == 2) {
-                win = 2;
-                scorePlayer2++;
-                score2.setText(scorePlayer2+"");
-            }
-        }
-
-        Intent myIntent = new Intent(this, EndGameActivity.class);
-        myIntent.putExtra(EndGameActivity.KEY_WIN, win);
-        myIntent.putExtra(EndGameActivity.KEY_NAME1,namePlayer1);
-        myIntent.putExtra(EndGameActivity.KEY_NAME2,namePlayer2);
-        myIntent.putExtra(EndGameActivity.KEY_SCORE1,scorePlayer1);
-        myIntent.putExtra(EndGameActivity.KEY_SCORE2,scorePlayer2);
-
-
+        updateValues(index);
+        intent();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -174,7 +154,30 @@ public class GameActivity extends AppCompatActivity {
         };
 
         Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(runnable,500);//delyed by 0.5 second
+        handler.postDelayed(runnable, 500);//delyed by 0.5 second
+    }
+
+    private void intent() {
+        myIntent = new Intent(this, EndGameActivity.class);
+        myIntent.putExtra(EndGameActivity.KEY_WIN, win);
+        myIntent.putExtra(EndGameActivity.KEY_NAME1, namePlayer1);
+        myIntent.putExtra(EndGameActivity.KEY_NAME2, namePlayer2);
+        myIntent.putExtra(EndGameActivity.KEY_SCORE1, scorePlayer1);
+        myIntent.putExtra(EndGameActivity.KEY_SCORE2, scorePlayer2);
+    }
+
+    private void updateValues(int index) {
+        if (index != -1) {
+            if (currentNumber[index] == 1) {
+                win = 1;
+                scorePlayer1++;
+                score1.setText(String.valueOf(scorePlayer1));
+            } else if (currentNumber[index] == 2) {
+                win = 2;
+                scorePlayer2++;
+                score2.setText(String.valueOf(scorePlayer2));
+            }
+        }
     }
 
     private void openMainScreen() {
